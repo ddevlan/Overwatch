@@ -1,0 +1,15 @@
+database:
+  redis:
+    host: "127.00.1"
+    port: 6379
+    pass: "password"
+
+server:
+  id: "Overwatch-01"
+
+settings:
+  map-directory: "maps/"    #   Output will be '~/{map-directory}/'
+  load-maps:    #   This will load the following maps in directory above
+    - "dorado"
+    - "eichenwalde"
+    - "nepal"
