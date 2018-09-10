@@ -4,6 +4,6 @@ public enum HeroRole {
 
     SUPPORT,
     DAMAGE,
-    TANK;
+    TANK
 
 }

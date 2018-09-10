@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import java.util.ArrayList;
 import java.util.List;
 
+//this class seems VERY unnecessary, but sure -PTech
 public final class CC {
 
 	public static final String BLUE = ChatColor.BLUE.toString();
@@ -69,11 +70,8 @@ public final class CC {
 
 	public static List<String> translateLines(List<String> lines) {
 		List<String> toReturn = new ArrayList<>();
-
-		for (String line : lines) {
-			toReturn.add(ChatColor.translateAlternateColorCodes('&', line));
-		}
-
+		//lambda woo -PTech
+		toReturn.replaceAll(CC::translate);
 		return toReturn;
 	}
 

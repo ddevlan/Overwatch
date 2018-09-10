@@ -14,4 +14,8 @@ public class Position {
         return new Position((int) location.getX(), (int) location.getY(), (int) location.getZ());
     }
 
+    public static Position fromSimpleLocation(SimpleLocation location) {
+        return new Position((int) location.getX(), (int) location.getY(), (int) location.getZ());
+    }
+
 }

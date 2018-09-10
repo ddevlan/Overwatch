@@ -25,15 +25,23 @@ public class OverwatchMongo {
         overwatchMongo = this;
         ConfigCursor cursor = new ConfigCursor(Overwatch.getInstance().getMainFileConfig(), "database.mongo");
 
-        if (!cursor.exists("host")
-                || !cursor.exists("port")
-                || !cursor.exists("database")
-                || !cursor.exists("authentication.enabled")
-                || !cursor.exists("authentication.username")
-                || !cursor.exists("authentication.password")
-                || !cursor.exists("authentication.database")) {
-            throw new RuntimeException("Missing configuration option");
-        }
+        //What the fuck? No, no no no.
+        //This is better.
+
+        String[] neededPaths = new String[]{
+                "host",
+                "port",
+                "database",
+                "authentication.enabled",
+                "authentication.username",
+                "authentication.password",
+                "authentication.database"
+        };
+
+        for (String s : neededPaths)
+            if (!cursor.exists(s)) {
+                throw new RuntimeException("Missing configuration option");
+            }
 
         if (cursor.getBoolean("authentication.enabled")) {
             final MongoCredential credential = MongoCredential.createCredential(
