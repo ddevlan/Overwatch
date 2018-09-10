@@ -1,6 +1,6 @@
 package me.ohvalsgod.overwatch.hero.abilities;
 
-public interface Passive {
+public interface Passive extends Ability {
 
     /**
      * @return the passive's runnable

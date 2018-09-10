@@ -17,7 +17,9 @@ public class HeroManager {
     }
 
     public void loadHeroes() {
-        //TODO: statically load all heroes here
+        //TODO: Statically load all heroes here:
+
+        //TODO: The priority for heroes now are: Sombra, Mei, Mercy, as these heroes have abilities that greatly affect gameplay (rez, freeze, and hack as it disables all of your abilities)
     }
 
     public Hero getRandomHero() {

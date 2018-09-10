@@ -26,7 +26,7 @@ public class PlayerCache {
 
         AtomicString atomic = new AtomicString();
 
-        Overwatch.getInstance().getOverwatchJedis().runCommand(redis -> {
+        overwatch.getOverwatchJedis().runCommand(redis -> {
             atomic.setString(redis.hget("uuid-to-name", String.valueOf(uuid)));
             return null;
         });
@@ -45,7 +45,7 @@ public class PlayerCache {
 
         AtomicString atomic = new AtomicString();
 
-        Overwatch.getInstance().getOverwatchJedis().runCommand(redis -> {
+        overwatch.getOverwatchJedis().runCommand(redis -> {
             atomic.setString(redis.hget("name-to-uuid", name.toLowerCase()));
             return null;
         });
@@ -58,7 +58,7 @@ public class PlayerCache {
     }
 
     public void fetch() {
-        Overwatch.getInstance().getOverwatchJedis().runCommand((redis) -> {
+        overwatch.getOverwatchJedis().runCommand((redis) -> {
             Map<String, String> cached = redis.hgetAll("name-to-uuid");
 
             if (cached == null || cached.isEmpty()) {
@@ -84,7 +84,7 @@ public class PlayerCache {
         nameToUuid.put(name.toLowerCase(), uuid);
         uuidToName.put(uuid, name);
 
-        Overwatch.getInstance().getOverwatchJedis().runCommand((redis) -> {
+        overwatch.getOverwatchJedis().runCommand((redis) -> {
             redis.hset("name-to-uuid", name.toLowerCase(), uuid.toString());
             redis.hset("uuid-to-name", uuid.toString(), name);
             return null;

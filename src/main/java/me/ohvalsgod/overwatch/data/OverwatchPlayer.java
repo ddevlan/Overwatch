@@ -23,10 +23,6 @@ public class OverwatchPlayer extends PlayerInfo {
         super(uuid, null);
     }
 
-    private Document find() {
-        //Let's make this code a little more readable.
-        Document document = players.find(MongoUtil.find("uuid", getUuid().toString())).first();
-        return document;
-    }
+    //TODO: Load from mongo *eventually*, but for now will just continue on with the project, because I don't know how much data needs to be stored yet.
 
 }

@@ -11,6 +11,7 @@ public class OverwatchConfig {
     public void load() {
         ConfigCursor cursor = new ConfigCursor(Overwatch.getInstance().getMainFileConfig(),  "server");
 
+        //  Going to be used by standalone application to manage the server instances
         serverId = cursor.getString("id");
     }
 }

@@ -31,11 +31,18 @@ public class OverwatchMap {
     private Set<SimpleLocation> megaHealthPacks;
     @Setter private int skyBox, deathFloor;
     private boolean loaded;
+    /*
+        Possibly put in OverwatchMapManager?
+                                                */
     private FileConfig config;
-
+    /*                                          */
     public OverwatchMap(String name) {
         this.name = name;
     }
+
+    /*
+        Possibly put in OverwatchMapManager?
+                                                */
 
     private FileConfig find() {
         for (File file : Objects.requireNonNull(overwatch.getOverwatchMapDirectory().listFiles())) {
@@ -48,7 +55,6 @@ public class OverwatchMap {
     }
 
     public void load() {
-
         find();
 
         if (config == null) {
@@ -113,12 +119,12 @@ public class OverwatchMap {
     }
 
     public void removeMiniHealthpack(SimpleLocation location) {
-        if (miniHealthPacks.contains(location)) miniHealthPacks.remove(location);
+        miniHealthPacks.remove(location);
     }
 
     public void addMiniHealthpack(SimpleLocation location) {
         Position position = Position.fromSimpleLocation(location);
-        if(!miniHealthPacks.contains(location)) miniHealthPacks.add(location);
+        miniHealthPacks.add(location);
     }
 
     private List<String> transform(Set<SimpleLocation> locations) {

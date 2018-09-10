@@ -27,7 +27,7 @@ public class OverwatchJedis {
             }
 
             this.publisher = new JedisPublisher(this.settings);
-            this.subscriber = new JedisSubscriber("basic", this.settings, new OverwatchSubscriptionHandler());
+            this.subscriber = new JedisSubscriber("overwatch", this.settings, new OverwatchSubscriptionHandler());
         }
     }
 
@@ -41,7 +41,7 @@ public class OverwatchJedis {
         object.addProperty("payload", payload.name());
         object.add("data", data == null ? new JsonObject() : data);
 
-        this.publisher.write("basic", object);
+        this.publisher.write("overwatch", object);
     }
 
     public <T> T runCommand(RedisCommand<T> redisCommand) {
