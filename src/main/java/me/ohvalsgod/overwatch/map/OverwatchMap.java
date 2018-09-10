@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.ohvalsgod.overwatch.Overwatch;
 import me.ohvalsgod.overwatch.util.LocationUtil;
 import me.ohvalsgod.overwatch.util.Position;
+import me.ohvalsgod.overwatch.util.SimpleLocation;
 import me.ohvalsgod.overwatch.util.config.ConfigCursor;
 import me.ohvalsgod.overwatch.util.config.FileConfig;
 import org.bukkit.Bukkit;
@@ -26,8 +27,8 @@ public class OverwatchMap {
     private OverwatchMapType overwatchMapType;
     private World world;
     @Setter private Location cornerA, cornerB, spawnA, spawnB;
-    private Set<Location> miniHealthPacks;
-    private Set<Location> megaHealthPacks;
+    private Set<SimpleLocation> miniHealthPacks;
+    private Set<SimpleLocation> megaHealthPacks;
     @Setter private int skyBox, deathFloor;
     private boolean loaded;
     private FileConfig config;
@@ -79,15 +80,13 @@ public class OverwatchMap {
 
         miniHealthPacks = new HashSet<>();
 
-        for (String string : cursor.getStringList("minis")) {
-            miniHealthPacks.add(LocationUtil.deserialize(string));
-        }
+        for (String string : cursor.getStringList("minis"))
+            miniHealthPacks.add(LocationUtil.deserializeSimpleLocation(string));
 
         megaHealthPacks = new HashSet<>();
 
-        for (String string : cursor.getStringList("megas")) {
-            megaHealthPacks.add(LocationUtil.deserialize(string));
-        }
+        for (String string : cursor.getStringList("megas"))
+            megaHealthPacks.add(LocationUtil.deserializeSimpleLocation(string));
 
         loaded = true;
     }
@@ -113,19 +112,20 @@ public class OverwatchMap {
         config.save();//brb
     }
 
-    public void removeMiniHealthpack(Location location) {
+    public void removeMiniHealthpack(SimpleLocation location) {
         if (miniHealthPacks.contains(location)) miniHealthPacks.remove(location);
     }
 
-    public void addMiniHealthpack(Location location) {
-        Position position = Position.fromLocation(location);
+    public void addMiniHealthpack(SimpleLocation location) {
+        Position position = Position.fromSimpleLocation(location);
         if(!miniHealthPacks.contains(location)) miniHealthPacks.add(location);
     }
 
-    private List<String> transform(Set<Location> locations) {
+    private List<String> transform(Set<SimpleLocation> locations) {
         List<String> toReturn = new ArrayList<>();
-        locations.forEach(loc -> toReturn.add(LocationUtil.serialize(loc)));
+        locations.forEach(loc -> toReturn.add(LocationUtil.serializeSimpleLocation(loc)));
         return toReturn;
     }
+
 
 }

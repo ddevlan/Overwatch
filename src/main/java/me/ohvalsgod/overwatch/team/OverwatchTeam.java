@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 public class OverwatchTeam<T extends OverwatchPlayer> {
@@ -19,27 +21,11 @@ public class OverwatchTeam<T extends OverwatchPlayer> {
     }
 
     public boolean containsPlayer(Player player) {
-        for (OverwatchPlayer overwatchPlayer : this.teamPlayers) {
-            if (overwatchPlayer.getUuid().equals(player.getUniqueId())) {
-                return true;
-            }
-        }
-
-        return false;
+        return teamPlayers.stream().anyMatch(owPlayer -> owPlayer.getUuid().equals(player.getUniqueId()));
     }
 
     public List<Player> getPlayers() {
-        List<Player> players = new ArrayList<>();
-
-        this.teamPlayers.forEach(matchPlayer -> {
-            Player player = matchPlayer.toPlayer();
-
-            if (player != null) {
-                players.add(player);
-            }
-        });
-
-        return players;
+        return this.teamPlayers.stream().map(T::toPlayer).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     /**
@@ -49,15 +35,7 @@ public class OverwatchTeam<T extends OverwatchPlayer> {
      * @return A list of team players that are alive.
      */
     public List<T> getAliveTeamPlayers() {
-        List<T> alive = new ArrayList<>();
-
-        this.teamPlayers.forEach(teamPlayer -> {
-            if (teamPlayer.isAlive()) {
-                alive.add(teamPlayer);
-            }
-        });
-
-        return alive;
+        return this.teamPlayers.stream().filter(OverwatchPlayer::isAlive).collect(Collectors.toList());
     }
 
     /**
@@ -71,15 +49,9 @@ public class OverwatchTeam<T extends OverwatchPlayer> {
      * @return The count of team players that are alive.
      */
     public int getAliveCount() {
-        int alive = 0;
 
-        for (OverwatchPlayer overwatchPlayer : this.teamPlayers) {
-            if (overwatchPlayer.isAlive()) {
-                alive++;
-            }
-        }
-
-        return alive;
+        //lel what was all that code about
+        return getAliveTeamPlayers().size();
     }
 
     /**
@@ -89,15 +61,7 @@ public class OverwatchTeam<T extends OverwatchPlayer> {
      * @return A list of overwatch players that are dead.
      */
     public List<T> getDeadTeamPlayers() {
-        List<T> dead = new ArrayList<>();
-
-        this.teamPlayers.forEach(teamPlayer -> {
-            if (!teamPlayer.isAlive()) {
-                dead.add(teamPlayer);
-            }
-        });
-
-        return dead;
+        return this.teamPlayers.stream().filter(t -> !t.isAlive()).collect(Collectors.toList());
     }
 
     /**
@@ -107,7 +71,8 @@ public class OverwatchTeam<T extends OverwatchPlayer> {
      * @return The count of team players that are dead.
      */
     public int getDeadCount() {
-        return this.teamPlayers.size() - this.getAliveCount();
+        //that's a lot better.
+        return getDeadTeamPlayers().size();
     }
 
     public void broadcast(String message) {
@@ -119,7 +84,10 @@ public class OverwatchTeam<T extends OverwatchPlayer> {
     }
 
     public void broadcastComponents(List<BaseComponent[]> components) {
-        this.getPlayers().forEach(player -> components.forEach(array -> player.spigot().sendMessage(array)));
+        //Nested lambdas are ugly and aren't considered nice. Don't use them.
+        for (Player player : this.getPlayers()) {
+            components.forEach(array -> player.spigot().sendMessage(array));
+        }
     }
 
 }

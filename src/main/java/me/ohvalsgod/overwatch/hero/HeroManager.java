@@ -1,10 +1,10 @@
 package me.ohvalsgod.overwatch.hero;
 
 import me.ohvalsgod.overwatch.Overwatch;
-import me.ohvalsgod.overwatch.util.RandomUtil;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class HeroManager {
 
@@ -21,7 +21,7 @@ public class HeroManager {
     }
 
     public Hero getRandomHero() {
-        return (Hero) heroes.toArray()[RandomUtil.RANDOM.nextInt(heroes.size())];
+        return (Hero) heroes.toArray()[ThreadLocalRandom.current().nextInt(heroes.size())];
     }
 
 }
